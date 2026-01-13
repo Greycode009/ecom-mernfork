@@ -29,11 +29,18 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    window.location.href = "/";
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
+

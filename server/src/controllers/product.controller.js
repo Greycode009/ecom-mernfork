@@ -20,14 +20,21 @@ export const createProduct = async (req, res) => {
       slug,
       description,
       price,
+      image,
       images,
       category,
       brand,
       countInStock,
+      tags,
+      requiredFields,
+      isFeatured,
+      isHotDeal,
+      originalPrice,
+      features,
     } = req.body;
 
-    if (!title || !slug || !description || !price || !category) {
-      return res.status(400).json({ message: "Required fields missing" });
+    if (!title || !slug || !description || !price) {
+      return res.status(400).json({ message: "Required fields missing (title, slug, description, price)" });
     }
 
     const exists = await Product.findOne({ slug });
@@ -35,26 +42,53 @@ export const createProduct = async (req, res) => {
       return res.status(409).json({ message: "Product slug already exists" });
     }
 
+    // Handle image field - convert single image to images array
+    let productImages = images || [];
+    if (image && !productImages.includes(image)) {
+      productImages = [image, ...productImages];
+    }
+
     const product = await Product.create({
       title,
       slug,
       description,
       price,
-      images,
-      category,
+      images: productImages,
+      category: category || "Digital Services",
       brand,
-      countInStock,
+      countInStock: countInStock || 999999,
+      tags: tags || [],
+      requiredFields: requiredFields || [],
+      isFeatured: isFeatured || false,
+      isHotDeal: isHotDeal || false,
+      originalPrice,
+      features: features || { instant: true, verified: true, support: true },
     });
 
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
-  
 };
 
-// GET /api/products/:slug
+// GET /api/products/:id
+// Admin only - get product by ID for editing
+export const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// GET /api/products/slug/:slug
+// Public – get product by slug
 export const getProductBySlug = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug });
@@ -68,8 +102,9 @@ export const getProductBySlug = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 // PUT /api/products/:id
-// Admin only – update product (tags, requiredFields, etc.)
+// Admin only – update product
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -79,13 +114,17 @@ export const updateProduct = async (req, res) => {
       "slug",
       "description",
       "price",
+      "image",
       "images",
       "category",
       "brand",
       "countInStock",
       "isFeatured",
+      "isHotDeal",
+      "originalPrice",
       "tags",
       "requiredFields",
+      "features",
     ];
 
     const updates = {};
@@ -93,7 +132,13 @@ export const updateProduct = async (req, res) => {
       if (req.body[key] !== undefined) updates[key] = req.body[key];
     }
 
-    // sanitize arrays
+    // Handle single image field -> convert to images array
+    if (updates.image && !updates.images) {
+      updates.images = [updates.image];
+      delete updates.image;
+    }
+
+    // Sanitize arrays
     if (updates.tags) {
       updates.tags = Array.isArray(updates.tags)
         ? updates.tags.map((t) => String(t).trim()).filter(Boolean)
@@ -101,15 +146,15 @@ export const updateProduct = async (req, res) => {
     }
 
     if (updates.requiredFields) {
-      const allowedReq = ["email", "phone", "username", "uid"];
+      const allowedReq = ["email", "phone", "username", "uid", "profile_link"];
       updates.requiredFields = Array.isArray(updates.requiredFields)
         ? updates.requiredFields
-            .map((f) => String(f).trim())
-            .filter((f) => allowedReq.includes(f))
+          .map((f) => String(f).trim())
+          .filter((f) => allowedReq.includes(f))
         : [];
     }
 
-    // slug uniqueness check (if changing slug)
+    // Slug uniqueness check (if changing slug)
     if (updates.slug) {
       const exists = await Product.findOne({ slug: updates.slug, _id: { $ne: id } });
       if (exists) return res.status(409).json({ message: "Product slug already exists" });
@@ -119,6 +164,22 @@ export const updateProduct = async (req, res) => {
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// DELETE /api/products/:id
+// Admin only – delete product
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

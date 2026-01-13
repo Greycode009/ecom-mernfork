@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
+import passport from '../config/passport.js';
 
 // POST /api/auth/register
 export const register = async (req, res) => {
@@ -76,7 +77,7 @@ export const login = async (req, res) => {
 export const me = async (req, res) => {
   res.json(req.user);
 
-  
+
 };
 
 // GET /api/auth/me
@@ -87,4 +88,24 @@ export const getMe = async (req, res) => {
     email: req.user.email,
     role: req.user.role,
   });
+};
+
+// GET /api/auth/google - Initialize Google OAuth
+export const googleAuth = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+});
+
+// GET /api/auth/google/callback - Google OAuth callback
+export const googleAuthCallback = (req, res, next) => {
+  passport.authenticate('google', { session: false }, (err, user) => {
+    if (err || !user) {
+      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5174'}/login?error=auth_failed`);
+    }
+
+    // Generate JWT token
+    const token = generateToken(user._id);
+
+    // Redirect to frontend with token
+    res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5174'}/auth/google/callback?token=${token}`);
+  })(req, res, next);
 };

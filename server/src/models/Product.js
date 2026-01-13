@@ -44,13 +44,35 @@ const productSchema = new mongoose.Schema(
       default: false,
     },
     tags: {
-  type: [String],
-  default: [],
-},
-requiredFields: {
-  type: [String],
-  default: [], // e.g. ["email"] or ["phone","uid"]
-},
+      type: [String],
+      default: [],
+    },
+    requiredFields: {
+      type: [String],
+      default: [], // e.g. ["email"] or ["phone","uid"]
+    },
+    features: {
+      instant: {
+        type: Boolean,
+        default: true,
+      },
+      verified: {
+        type: Boolean,
+        default: true,
+      },
+      support: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    isHotDeal: {
+      type: Boolean,
+      default: false,
+    },
+    originalPrice: {
+      type: Number,
+      min: 0,
+    },
 
 
   },

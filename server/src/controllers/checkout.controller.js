@@ -14,7 +14,7 @@ export const getCheckoutSummary = async (req, res) => {
 
     for (const ci of cart.items) {
       const p = await Product.findById(ci.product).select(
-        "title slug price tags requiredFields"
+        "title slug price images tags requiredFields"
       );
 
       if (!p) continue;
@@ -31,6 +31,7 @@ export const getCheckoutSummary = async (req, res) => {
         title: p.title,
         slug: p.slug,
         price: p.price,
+        image: p.images?.[0] || "", // Include first image for display
         qty,
         tags: p.tags || [],
         requiredFields: p.requiredFields || [],
@@ -93,10 +94,9 @@ export const getWhatsAppLinkForOrder = async (req, res) => {
     lines.push(`Total: NPR ${order.totalPrice}`);
     lines.push("");
     lines.push(
-      `Payment: ${
-        order.payment?.method === "esewa_qr"
-          ? "eSewa QR"
-          : order.payment?.method || "Manual"
+      `Payment: ${order.payment?.method === "esewa_qr"
+        ? "eSewa QR"
+        : order.payment?.method || "Manual"
       }`
     );
     lines.push("(I have paid / will pay now)");
