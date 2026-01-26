@@ -149,7 +149,7 @@ const Home = () => {
                 <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-white">
                   Premium Digital<br />
                   <span className="text-yellow-400">
-                    Subscriptions
+                    Products
                   </span>
                 </h1>
 
@@ -174,14 +174,14 @@ const Home = () => {
                 </div>
 
                 {/* CTA - Single Button */}
-                <div>
+                <div className="relative z-10">
                   <button
                     onClick={scrollToProducts}
-                    className="px-8 py-4 bg-white text-primary-700 rounded-xl font-bold text-lg shadow-2xl hover:shadow-white/50 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                    className="px-8 py-4 bg-white text-primary-700 rounded-xl font-bold text-lg shadow-2xl hover:shadow-white/50 hover:scale-105 transition-all duration-300 flex items-center gap-2 cursor-pointer"
                   >
                     Browse Deals
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                   </button>
                 </div>
@@ -202,7 +202,7 @@ const Home = () => {
                         <div className="flex items-center gap-4">
                           <div className="relative flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary-100 to-purple-100 rounded-xl overflow-hidden">
                             <img
-                              src={product.image || 'https://via.placeholder.com/100'}
+                              src={product.images?.[0] || 'https://via.placeholder.com/100'}
                               alt={product.title}
                               className="w-full h-full object-contain p-2"
                             />
@@ -254,10 +254,10 @@ const Home = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">
-              {searchQuery ? `Search Results for "${searchQuery}"` : activeTag === "All" ? "All Subscriptions" : `${activeTag} Subscriptions`}
+              {searchQuery ? `Search Results for "${searchQuery}"` : activeTag === "All" ? "All Products" : `${activeTag} Products`}
             </h2>
             <p className="text-xl text-neutral-600">
-              {filtered.length} premium {filtered.length === 1 ? "subscription" : "subscriptions"}
+              {filtered.length} premium {filtered.length === 1 ? "product" : "products"}
             </p>
           </div>
 
@@ -405,7 +405,7 @@ const Home = () => {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <LoadingSpinner size="lg" />
-                <p className="mt-4 text-neutral-600">Loading subscriptions...</p>
+                <p className="mt-4 text-neutral-600">Loading products...</p>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-20">
@@ -416,7 +416,7 @@ const Home = () => {
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="text-neutral-300 text-6xl mb-4">📦</div>
                 <h3 className="text-xl font-semibold text-neutral-700 mb-2">
-                  No subscriptions found
+                  No products found
                 </h3>
                 <p className="text-neutral-500 mb-6">
                   {searchQuery ? `No results for "${searchQuery}"` : "Try selecting a different category"}

@@ -8,7 +8,7 @@ const FAQ = () => {
     const faqs = [
         {
             question: "How does manual activation work?",
-            answer: "After placing your order and making payment via eSewa or Khalti, send us the payment screenshot on WhatsApp. Our team will verify your payment and activate your subscription within 1-6 hours during business hours (9 AM - 9 PM NPT). You'll receive your credentials via WhatsApp once activated."
+            answer: "After placing your order and making payment via eSewa or Khalti, send us the payment screenshot on WhatsApp. Our team will verify your payment and activate your product within 1-6 hours during business hours (9 AM - 9 PM NPT). You'll receive your credentials via WhatsApp once activated."
         },
         {
             question: "What payment methods do you accept?",
@@ -16,39 +16,39 @@ const FAQ = () => {
         },
         {
             question: "How long does activation take?",
-            answer: "Activation typically takes 1-6 hours during our business hours (9 AM - 9 PM NPT). Orders placed outside business hours will be processed the next business day. We'll send you a WhatsApp message as soon as your subscription is ready."
+            answer: "Activation typically takes 1-6 hours during our business hours (9 AM - 9 PM NPT). Orders placed outside business hours will be processed the next business day. We'll send you a WhatsApp message as soon as your product is ready."
         },
         {
             question: "What information do I need to provide?",
-            answer: "Depending on the product, you may need to provide: email address, phone number, username, UID, or profile link. These details are required for us to set up your subscription. We'll show you exactly what's needed when you checkout."
+            answer: "Depending on the product, you may need to provide: email address, phone number, username, UID, or profile link. These details are required for us to set up your product. We'll show you exactly what's needed when you checkout."
         },
         {
             question: "Can I get a refund?",
             answer: "Due to the digital nature of our products, all sales are final once credentials are provided. However, if we're unable to fulfill your order within the promised timeframe, we'll issue a full refund. Contact us on WhatsApp if you have any concerns."
         },
         {
-            question: "What if I don't receive my subscription?",
+            question: "What if I don't receive my product?",
             answer: "If you haven't received your credentials within 6 hours during business hours, please contact us immediately on WhatsApp at +977 9800000000. We'll investigate and resolve the issue promptly."
         },
         {
-            question: "Are the subscriptions shared with other users?",
-            answer: "It depends on the service provider's terms and the product you purchase. Some subscriptions are private accounts, while others may be shared family plans. Product descriptions will clearly indicate the type of access provided."
+            question: "Are the products shared with other users?",
+            answer: "It depends on the service provider's terms and the product you purchase. Some products are private accounts, while others may be shared family plans. Product descriptions will clearly indicate the type of access provided."
         },
         {
-            question: "Can I change my subscription details after ordering?",
-            answer: "If you need to change activation details (email, username, etc.) before we process your order, contact us immediately on WhatsApp. Once the subscription is activated, changes may not be possible depending on the service provider."
+            question: "Can I change my product details after ordering?",
+            answer: "If you need to change activation details (email, username, etc.) before we process your order, contact us immediately on WhatsApp. Once the product is activated, changes may not be possible depending on the service provider."
         },
         {
             question: "Do you offer bulk discounts?",
-            answer: "Yes! If you're interested in purchasing multiple subscriptions or becoming a reseller, contact us on WhatsApp to discuss custom pricing and volume discounts."
+            answer: "Yes! If you're interested in purchasing multiple products or becoming a reseller, contact us on WhatsApp to discuss custom pricing and volume discounts."
         },
         {
             question: "How do I track my order?",
             answer: "You can view all your orders by logging in and going to 'My Orders' from the profile menu. You'll see the payment status and order status (Pending, Processing, Fulfilled) for each order."
         },
         {
-            question: "What happens if my subscription expires?",
-            answer: "When your subscription is nearing expiration, you can place a new order for renewal. We don't have automatic renewal yet, so you'll need to manually purchase again through our website."
+            question: "What happens if my product expires?",
+            answer: "When your product is nearing expiration, you can place a new order for renewal. We don't have automatic renewal yet, so you'll need to manually purchase again through our website."
         },
         {
             question: "Is my payment information secure?",

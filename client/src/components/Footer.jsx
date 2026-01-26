@@ -11,7 +11,7 @@ const Footer = () => {
                             CheapGPT
                         </Link>
                         <p className="text-neutral-100 text-sm opacity-90">
-                            Affordable digital subscriptions in Nepal. Get premium access at unbeatable prices.
+                            Affordable digital products in Nepal. Get premium access at unbeatable prices.
                         </p>
                     </div>
 

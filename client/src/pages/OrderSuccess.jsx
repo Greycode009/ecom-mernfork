@@ -149,7 +149,7 @@ const OrderSuccess = () => {
               </div>
               <div>
                 <h4 className="font-semibold text-neutral-900 mb-1">Get Activated</h4>
-                <p className="text-sm text-neutral-600">We'll activate your subscription within 1-6 hours</p>
+                <p className="text-sm text-neutral-600">We'll activate your product within 1-6 hours</p>
               </div>
             </div>
           </div>

@@ -22,9 +22,14 @@ const Cart = () => {
                 productId: item.product?._id || item.product,
                 title: item.product?.title || "Unknown Product",
                 slug: item.product?.slug || "",
-                price: item.product?.price || 0,
+                // Use cart item price (selected plan price) or fallback to product price
+                price: item.price || item.product?.price || 0,
                 image: item.product?.images?.[0] || "",
                 qty: item.qty || 1,
+                // Plan info
+                planId: item.planId || "monthly",
+                planLabel: item.planLabel || "1 Month",
+                durationInDays: item.durationInDays || 30,
             }));
             setCart(items);
         } catch (err) {
@@ -91,10 +96,10 @@ const Cart = () => {
                 <div className="text-neutral-300 text-8xl mb-6">🛒</div>
                 <h2 className="text-3xl font-display font-bold text-neutral-900 mb-3">Your cart is empty</h2>
                 <p className="text-neutral-600 mb-8 text-center max-w-md">
-                    Looks like you haven't added any subscriptions yet. Browse our products and find something you love!
+                    Looks like you haven't added any products yet. Browse our products and find something you love!
                 </p>
                 <Button onClick={() => navigate("/")} size="lg">
-                    Browse Subscriptions
+                    Browse Products
                 </Button>
             </div>
         );
@@ -146,6 +151,9 @@ const Cart = () => {
                                                 >
                                                     {item.title}
                                                 </Link>
+                                                <p className="text-sm text-primary-600 font-medium mt-0.5">
+                                                    {item.planLabel} plan
+                                                </p>
                                                 <p className="text-sm text-neutral-600 mt-1">
                                                     NPR {item.price.toLocaleString()} each
                                                 </p>
@@ -243,7 +251,7 @@ const Cart = () => {
                             {/* Info Box */}
                             <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                                 <p className="text-xs text-blue-800">
-                                    <strong>Note:</strong> All subscriptions are digitally activated. You'll need to provide activation details during checkout.
+                                    <strong>Note:</strong> All products are digitally activated. You'll need to provide activation details during checkout.
                                 </p>
                             </div>
                         </div>

@@ -10,6 +10,11 @@ const orderItemSchema = new mongoose.Schema(
     image: { type: String, default: "" },
     tags: { type: [String], default: [] },
 
+    // Plan details for subscription tracking
+    planId: { type: String, default: "monthly" }, // "monthly", "3months", "yearly"
+    planLabel: { type: String, default: "1 Month" }, // Display label
+    durationInDays: { type: Number, default: 30 }, // Duration for subscription
+
     price: { type: Number, required: true, min: 0 },
     qty: { type: Number, required: true, min: 1 },
   },
@@ -23,12 +28,12 @@ const orderSchema = new mongoose.Schema(
     orderItems: { type: [orderItemSchema], required: true },
 
     activationDetails: {
-  email: { type: String, default: "", lowercase: true, trim: true },
-  phone: { type: String, default: "", trim: true },
-  username: { type: String, default: "", trim: true },
-  uid: { type: String, default: "", trim: true },
-  notes: { type: String, default: "", trim: true },
-},
+      email: { type: String, default: "", lowercase: true, trim: true },
+      phone: { type: String, default: "", trim: true },
+      username: { type: String, default: "", trim: true },
+      uid: { type: String, default: "", trim: true },
+      notes: { type: String, default: "", trim: true },
+    },
 
     // digital fulfillment info
     activationEmail: { type: String, required: true, lowercase: true, trim: true },

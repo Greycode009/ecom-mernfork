@@ -11,7 +11,7 @@ const About = () => {
                         About CheapGPT
                     </h1>
                     <p className="text-xl opacity-90">
-                        Making premium digital subscriptions affordable for everyone in Nepal
+                        Making premium digital products affordable for everyone in Nepal
                     </p>
                 </div>
             </div>
@@ -27,7 +27,7 @@ const About = () => {
                         <div className="prose prose-lg max-w-none text-neutral-700 space-y-4">
                             <p>
                                 CheapGPT was founded with a simple mission: to make premium digital services accessible
-                                to everyone in Nepal at affordable prices. We understand that international subscription
+                                to everyone in Nepal at affordable prices. We understand that international product
                                 services can be expensive when converted to NPR, and that's where we come in.
                             </p>
                             <p>
@@ -54,7 +54,7 @@ const About = () => {
                                 Browse & Order
                             </h3>
                             <p className="text-neutral-600">
-                                Choose from our wide selection of digital subscriptions and add them to your cart.
+                                Choose from our wide selection of digital products and add them to your cart.
                                 Checkout is quick and easy.
                             </p>
                         </div>
@@ -82,7 +82,7 @@ const About = () => {
                                 Get Activated
                             </h3>
                             <p className="text-neutral-600">
-                                Receive your subscription credentials within 1-6 hours via WhatsApp. Start enjoying
+                                Receive your product credentials within 1-6 hours via WhatsApp. Start enjoying
                                 your premium service immediately!
                             </p>
                         </div>
@@ -103,7 +103,7 @@ const About = () => {
                                 <div>
                                     <h3 className="font-bold text-lg mb-2">Unbeatable Prices</h3>
                                     <p className="opacity-90">
-                                        Up to 70% cheaper than buying directly. Affordable premium subscriptions for the Nepal market.
+                                        Up to 70% cheaper than buying directly. Affordable premium products for the Nepal market.
                                     </p>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ const About = () => {
                                 <div>
                                     <h3 className="font-bold text-lg mb-2">Wide Selection</h3>
                                     <p className="opacity-90">
-                                        100+ digital subscriptions including AI tools, entertainment, education, and productivity apps.
+                                        100+ digital products including AI tools, entertainment, education, and productivity apps.
                                     </p>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ const About = () => {
                             Ready to Get Started?
                         </h2>
                         <p className="text-neutral-600 mb-8 text-lg">
-                            Join thousands of happy customers enjoying premium subscriptions at affordable prices
+                            Join thousands of happy customers enjoying premium products at affordable prices
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/">

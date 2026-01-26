@@ -100,7 +100,7 @@ const Checkout = () => {
                   Activation Details
                 </h2>
                 <p className="text-neutral-600 mb-6">
-                  Please provide the required information for subscription activation
+                  Please provide the required information for product activation
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -187,7 +187,7 @@ const Checkout = () => {
                   </p>
                   <p className="flex items-start gap-2">
                     <span className="text-primary-600 mt-1">4.</span>
-                    <span>We'll activate your subscription within 1-6 hours</span>
+                    <span>We'll activate your product within 1-6 hours</span>
                   </p>
                 </div>
               </div>

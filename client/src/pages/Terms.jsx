@@ -33,11 +33,11 @@ const Terms = () => {
                             2. Service Description
                         </h2>
                         <p className="text-neutral-700 leading-relaxed mb-3">
-                            CheapGPT provides access to digital subscriptions for various services including but not limited to
+                            CheapGPT provides access to digital products for various services including but not limited to
                             entertainment platforms, AI tools, and educational resources. Our services include:
                         </p>
                         <ul className="list-disc list-inside text-neutral-700 space-y-2 ml-4">
-                            <li>Resale of digital subscription access</li>
+                            <li>Resale of digital product access</li>
                             <li>Manual account activation within 1-6 hours after payment verification</li>
                             <li>Customer support via WhatsApp</li>
                         </ul>
@@ -79,7 +79,7 @@ const Terms = () => {
                         <ul className="list-disc list-inside text-neutral-700 space-y-2 ml-4">
                             <li>Provide accurate and complete activation information</li>
                             <li>Do not share credentials received with third parties</li>
-                            <li>Use subscriptions in accordance with the original service provider's terms</li>
+                            <li>Use products in accordance with the original service provider's terms</li>
                             <li>Contact support immediately if you experience issues</li>
                         </ul>
                     </section>

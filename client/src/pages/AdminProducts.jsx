@@ -362,8 +362,8 @@ const AdminProducts = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
                           <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary-50 to-purple-50 overflow-hidden flex-shrink-0 border border-neutral-200">
-                            {p.image ? (
-                              <img src={p.image} alt={p.title} className="w-full h-full object-contain p-2" />
+                            {p.images?.[0] ? (
+                              <img src={p.images[0]} alt={p.title} className="w-full h-full object-contain p-2" />
                             ) : (
                               <div className="flex items-center justify-center h-full text-2xl">📦</div>
                             )}

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Badge from './Badge';
 
 const ProductCard = ({ product }) => {
-    const { slug, title, price, image, tags = [], isFeatured } = product;
+    const { slug, title, price, images = [], tags = [], isFeatured } = product;
+    const image = images?.[0] || null; // Get first image from array
 
     // Extract features with defaults (backward compatible)
     const instant = product.features?.instant !== false;

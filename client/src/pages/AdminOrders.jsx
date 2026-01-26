@@ -17,7 +17,7 @@ const AdminOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await api.get("/orders");
+      const { data } = await api.get("/orders/admin/list");
       setOrders(data);
     } catch {
       setError("Failed to load orders");
@@ -240,8 +240,8 @@ const AdminOrders = () => {
                       <td className="px-6 py-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${order.payment.status === "paid"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-yellow-100 text-yellow-800"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
                             }`}
                         >
                           {order.payment.status === "paid" ? "PAID" : "UNPAID"}
@@ -273,10 +273,10 @@ const AdminOrders = () => {
                           }
                           disabled={actionLoading === order._id}
                           className={`text-xs font-medium rounded-full px-3 py-1 border-0 cursor-pointer focus:ring-2 focus:ring-offset-1 focus:ring-primary-500 ${order.status === "fulfilled"
-                              ? "bg-blue-100 text-blue-800"
-                              : order.status === "cancelled"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-neutral-100 text-neutral-800"
+                            ? "bg-blue-100 text-blue-800"
+                            : order.status === "cancelled"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-neutral-100 text-neutral-800"
                             }`}
                         >
                           <option value="pending_payment">Pending</option>

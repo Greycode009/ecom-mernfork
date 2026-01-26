@@ -98,17 +98,17 @@ export const mergeGuestCart = async (req, res) => {
 /**
  * PUT /api/cart/item
  * Protected – set qty for a product in cart (add if missing)
- * Body: { productId, qty }
+ * Body: { productId, qty, planId?, planLabel?, durationInDays?, price? }
  */
 export const setCartItemQty = async (req, res) => {
   try {
-    const { productId, qty } = req.body;
+    const { productId, qty, planId, planLabel, durationInDays, price } = req.body;
 
     if (!productId || !Number.isFinite(Number(qty)) || Number(qty) < 1) {
       return res.status(400).json({ message: "productId and qty (>=1) are required" });
     }
 
-    const product = await Product.findById(productId).select("countInStock");
+    const product = await Product.findById(productId).select("countInStock price pricingPlans");
     if (!product) return res.status(404).json({ message: "Product not found" });
     if ((product.countInStock || 0) <= 0) {
       return res.status(400).json({ message: "Product is out of stock" });
@@ -116,20 +116,43 @@ export const setCartItemQty = async (req, res) => {
 
     const finalQty = Math.min(Number(qty), product.countInStock);
 
+    // Determine price - use provided price or find from pricingPlans or use product.price
+    let itemPrice = price;
+    if (!itemPrice && planId && product.pricingPlans?.length > 0) {
+      const plan = product.pricingPlans.find(p => p.planId === planId);
+      itemPrice = plan?.price || product.price || 0;
+    } else if (!itemPrice) {
+      itemPrice = product.price || 0;
+    }
+
     const cart = await getOrCreateCart(req.user._id);
 
     const idx = cart.items.findIndex((it) => String(it.product) === String(productId));
     if (idx >= 0) {
       cart.items[idx].qty = finalQty;
+      cart.items[idx].planId = planId || cart.items[idx].planId || "monthly";
+      cart.items[idx].planLabel = planLabel || cart.items[idx].planLabel || "1 Month";
+      cart.items[idx].durationInDays = durationInDays || cart.items[idx].durationInDays || 30;
+      cart.items[idx].durationInDays = durationInDays || cart.items[idx].durationInDays || 30;
+      cart.items[idx].price = itemPrice;
+      if (req.body.variantLabel) cart.items[idx].variantLabel = req.body.variantLabel;
     } else {
-      cart.items.push({ product: productId, qty: finalQty });
+      cart.items.push({
+        product: productId,
+        qty: finalQty,
+        planId: planId || "monthly",
+        planLabel: planLabel || "1 Month",
+        durationInDays: durationInDays || 30,
+        price: itemPrice,
+        variantLabel: req.body.variantLabel,
+      });
     }
 
     await cart.save();
 
     const populated = await Cart.findById(cart._id).populate({
       path: "items.product",
-      select: "title slug price images category brand countInStock",
+      select: "title slug price images category brand countInStock pricingPlans",
     });
 
     res.json(populated);

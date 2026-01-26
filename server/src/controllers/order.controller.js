@@ -6,6 +6,7 @@ import Product from "../models/Product.js";
 /**
  * Helper: calculate totals + build snapshot items from cart (server-trusted)
  * Also returns requiredFields union from all products in cart.
+ * Now uses cart item prices (selected plan prices) instead of product base price.
  */
 const calculateTotalsFromCart = async (cart) => {
   const items = [];
@@ -15,7 +16,7 @@ const calculateTotalsFromCart = async (cart) => {
 
   for (const ci of cart.items) {
     const p = await Product.findById(ci.product).select(
-      "title slug price images tags countInStock requiredFields"
+      "title slug price images tags countInStock requiredFields pricingPlans"
     );
 
     if (!p) continue; // product deleted
@@ -26,7 +27,6 @@ const calculateTotalsFromCart = async (cart) => {
     }
 
     // qty handling (cap by stock only if stock is managed)
-    // If you use stock for limited digital accounts, keep countInStock accurate.
     let qty = Number(ci.qty) || 1;
     qty = Math.max(1, qty);
 
@@ -38,17 +38,30 @@ const calculateTotalsFromCart = async (cart) => {
     const image =
       Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : "";
 
+    // Use cart item price (selected plan) or find from pricingPlans or fallback to product.price
+    let itemPrice = ci.price;
+    if (!itemPrice && ci.planId && p.pricingPlans?.length > 0) {
+      const plan = p.pricingPlans.find((pl) => pl.planId === ci.planId);
+      itemPrice = plan?.price || p.price || 0;
+    } else if (!itemPrice) {
+      itemPrice = p.price || 0;
+    }
+
     items.push({
       product: p._id,
       title: p.title,
       slug: p.slug,
       image,
       tags: Array.isArray(p.tags) ? p.tags : [],
-      price: p.price,
+      price: itemPrice,
       qty,
+      // Include plan details for subscription tracking
+      planId: ci.planId || "monthly",
+      planLabel: ci.planLabel || "1 Month",
+      durationInDays: ci.durationInDays || 30,
     });
 
-    itemsPrice += Number(p.price) * qty;
+    itemsPrice += Number(itemPrice) * qty;
   }
 
   itemsPrice = Number(itemsPrice.toFixed(2));
@@ -254,15 +267,74 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: "Invalid order status" });
     }
 
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("user", "name email");
     if (!order) return res.status(404).json({ message: "Order not found" });
 
+    const previousStatus = order.status;
     order.status = status;
     await order.save();
+
+    // When order becomes fulfilled, create subscriptions for each item
+    if (status === "fulfilled" && previousStatus !== "fulfilled") {
+      await createSubscriptionsFromOrder(order);
+    }
 
     return res.json(order);
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+// Helper: Create subscriptions from fulfilled order
+const createSubscriptionsFromOrder = async (order) => {
+  try {
+    const Subscription = (await import("../models/Subscription.js")).default;
+    const { sendEmail } = await import("../services/emailService.js");
+    const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5174";
+
+    for (const item of order.orderItems) {
+      const startDate = new Date();
+      const endDate = new Date(startDate.getTime() + (item.durationInDays || 30) * 24 * 60 * 60 * 1000);
+
+      // Create subscription record
+      const subscription = await Subscription.create({
+        user: order.user._id || order.user,
+        order: order._id,
+        product: item.product,
+        productTitle: item.title,
+        productImage: item.image || "",
+        planId: item.planId || "monthly",
+        planLabel: item.planLabel || "1 Month",
+        durationInDays: item.durationInDays || 30,
+        price: item.price,
+        startDate,
+        endDate,
+        status: "active",
+        activationDetails: {
+          email: order.activationDetails?.email || "",
+          phone: order.activationDetails?.phone || "",
+          username: order.activationDetails?.username || "",
+          uid: order.activationDetails?.uid || "",
+        },
+      });
+
+      console.log(`✅ Created subscription for ${item.title} (expires: ${endDate.toDateString()})`);
+
+      // Send activation email
+      const userEmail = order.user?.email || order.activationDetails?.email;
+      if (userEmail) {
+        await sendEmail(userEmail, "subscriptionActivated", {
+          userName: order.user?.name || "Customer",
+          productTitle: item.title,
+          planLabel: item.planLabel || "1 Month",
+          startDate: startDate.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }),
+          endDate: endDate.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }),
+          siteUrl: CLIENT_URL,
+        });
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error creating subscriptions:", error.message);
   }
 };
 

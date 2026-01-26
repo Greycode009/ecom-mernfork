@@ -70,7 +70,7 @@ const MyOrders = () => {
                         </h2>
                         <p className="text-neutral-600 mb-6">
                             You haven't placed any orders yet. Start shopping to see your
-                            subscriptions here.
+                            products here.
                         </p>
                         <Link to="/">
                             <Button variant="primary">Start Shopping</Button>
@@ -109,8 +109,8 @@ const MyOrders = () => {
                                         {/* Payment Status Badge */}
                                         <span
                                             className={`px-3 py-1 rounded-full text-xs font-semibold border ${order.payment.status === "paid"
-                                                    ? "bg-green-50 text-green-700 border-green-200"
-                                                    : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                                                ? "bg-green-50 text-green-700 border-green-200"
+                                                : "bg-yellow-50 text-yellow-700 border-yellow-200"
                                                 }`}
                                         >
                                             {order.payment.status === "paid"
@@ -121,10 +121,10 @@ const MyOrders = () => {
                                         {/* Order Status Badge */}
                                         <span
                                             className={`px-3 py-1 rounded-full text-xs font-semibold capitalize border ${order.status === "fulfilled"
-                                                    ? "bg-blue-50 text-blue-700 border-blue-200"
-                                                    : order.status === "cancelled"
-                                                        ? "bg-red-50 text-red-700 border-red-200"
-                                                        : "bg-neutral-100 text-neutral-700 border-neutral-200"
+                                                ? "bg-blue-50 text-blue-700 border-blue-200"
+                                                : order.status === "cancelled"
+                                                    ? "bg-red-50 text-red-700 border-red-200"
+                                                    : "bg-neutral-100 text-neutral-700 border-neutral-200"
                                                 }`}
                                         >
                                             {order.status.replace("_", " ")}
@@ -176,7 +176,7 @@ const MyOrders = () => {
                                                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                                                     />
                                                                 </svg>
-                                                                Subscription Active
+                                                                Product Active
                                                             </p>
                                                             {/* If backend sends credentials in order, show them here. 
                                   Assuming for now it's manual activation via WhatsApp. */}
@@ -194,7 +194,7 @@ const MyOrders = () => {
                                             </Button>
                                         </Link>
                                         <a
-                                            href={`https://wa.me/9779800000000?text=Hello, I need help with order #${order._id}`}
+                                            href={`https://wa.me/9779827133449?text=Hello, I need help with order #${order._id}`}
                                             target="_blank"
                                             rel="noreferrer"
                                         >

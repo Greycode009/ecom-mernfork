@@ -11,14 +11,16 @@ import {
 
 const router = express.Router();
 
-// User routes
+// User routes - specific paths first
 router.post("/", protect, createOrderFromCart);
 router.get("/me", protect, getMyOrders);
-router.get("/:id", protect, getOrderById);
 
-// Admin routes
-router.get("/", protect, adminOnly, listAllOrders);
+// Admin routes - must come BEFORE /:id
+router.get("/admin/list", protect, adminOnly, listAllOrders);
 router.put("/:id/payment", protect, adminOnly, updateOrderPayment);
 router.put("/:id/status", protect, adminOnly, updateOrderStatus);
+
+// Dynamic route last
+router.get("/:id", protect, getOrderById);
 
 export default router;

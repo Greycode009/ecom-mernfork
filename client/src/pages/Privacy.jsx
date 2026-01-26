@@ -24,7 +24,7 @@ const Privacy = () => {
                         <p className="text-neutral-700 leading-relaxed">
                             CheapGPT ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy
                             explains how we collect, use, disclose, and safeguard your information when you use our digital
-                            subscription marketplace service.
+                            product marketplace service.
                         </p>
                     </section>
 
@@ -101,7 +101,7 @@ const Privacy = () => {
                         </p>
                         <ul className="list-disc list-inside text-neutral-700 space-y-2 ml-4">
                             <li><strong>Service Providers:</strong> With third-party service providers who assist in operating our business (e.g., payment processors)</li>
-                            <li><strong>Subscription Providers:</strong> Necessary activation details are shared with the original service providers to fulfill your order</li>
+                            <li><strong>Product Providers:</strong> Necessary activation details are shared with the original service providers to fulfill your order</li>
                             <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and safety</li>
                         </ul>
                     </section>
