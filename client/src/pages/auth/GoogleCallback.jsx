@@ -25,7 +25,8 @@ const GoogleCallback = () => {
 
                 // Load user data
                 try {
-                    const response = await fetch('http://localhost:5001/api/auth/me', {
+                    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+                    const response = await fetch(`${apiUrl}/auth/me`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
