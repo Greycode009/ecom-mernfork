@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 const GoogleCallback = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const { login } = useAuth();
+    const { setUser } = useAuth();
 
     useEffect(() => {
         const handleCallback = async () => {
@@ -35,15 +35,15 @@ const GoogleCallback = () => {
                     if (response.ok) {
                         const userData = await response.json();
                         // Update auth context
-                        await login(undefined, undefined, { user: userData, token });
+                        setUser(userData);
 
                         // Redirect to homepage
                         navigate('/');
                     } else {
                         navigate('/login?error=Failed to load user data');
                     }
-                } catch (error) {
-                    console.error('Error loading user:', error);
+                } catch (err) {
+                    console.error('Error loading user:', err);
                     navigate('/login?error=Authentication error');
                 }
             } else {
@@ -52,7 +52,7 @@ const GoogleCallback = () => {
         };
 
         handleCallback();
-    }, [searchParams, navigate, login]);
+    }, [searchParams, navigate, setUser]);
 
     return (
         <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
